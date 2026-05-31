@@ -1,0 +1,82 @@
+// ============================================================
+// NEXT.JS MIDDLEWARE
+// Route protection for /admin — server-side auth validation
+// ============================================================
+
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
+
+const SECRET_KEY = new TextEncoder().encode(
+  process.env.NEXTAUTH_SECRET || "buchialgo-default-secret-change-me"
+);
+
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Protect /admin routes
+  if (pathname.startsWith("/admin")) {
+    const token = request.cookies.get("admin_session")?.value;
+
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    try {
+      const { payload } = await jwtVerify(token, SECRET_KEY, {
+        clockTolerance: 60,
+      });
+
+      // Verify admin role
+      if (payload.role !== "admin") {
+        return NextResponse.redirect(new URL("/login?error=unauthorized", request.url));
+      }
+
+      // Add admin headers for downstream use
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-admin-id", payload.sub || "");
+      requestHeaders.set("x-admin-role", payload.role as string);
+
+      return NextResponse.next({
+        request: { headers: requestHeaders },
+      });
+    } catch {
+      // Invalid or expired token
+      return NextResponse.redirect(new URL("/login?error=expired", request.url));
+    }
+  }
+
+  // Protect API routes that require admin
+  if (pathname.startsWith("/api/admin")) {
+    const token = request.cookies.get("admin_session")?.value;
+
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+      const { payload } = await jwtVerify(token, SECRET_KEY, {
+        clockTolerance: 60,
+      });
+
+      if (payload.role !== "admin") {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-admin-id", payload.sub || "");
+
+      return NextResponse.next({
+        request: { headers: requestHeaders },
+      });
+    } catch {
+      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+    }
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/admin/:path*", "/api/admin/:path*"],
+};
