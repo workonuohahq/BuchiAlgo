@@ -1,0 +1,11 @@
+{"id":"1","content":"PHASE 1: Database Layer - Supabase schema, tables, RLS policies, system_config seeding","status":"in_progress","priority":"high"}
+{"id":"2","content":"PHASE 1: Database Layer - Create migration scripts and seed data for system_config","status":"pending","priority":"high"}
+{"id":"3","content":"PHASE 2: Math Core Engine - FVG detection, MSS/OB calculations, OIE midpoint logic","status":"pending","priority":"high"}
+{"id":"4","content":"PHASE 2: Math Core Engine - ATR-based stop loss, take profit levels, CCXT data ingestion","status":"pending","priority":"high"}
+{"id":"5","content":"PHASE 3: Next.js Project Setup - Initialize Next.js 14+ with App Router, TypeScript, Tailwind","status":"pending","priority":"high"}
+{"id":"6","content":"PHASE 3: Next.js API Routes - Webhooks (Paystack, NOWPayments), checkout flows","status":"pending","priority":"high"}
+{"id":"7","content":"PHASE 3: Admin Panel - Auth middleware, Control Modules A-E (Algorithm, Branding, Gateway, Kanban, Broadcast)","status":"pending","priority":"high"}
+{"id":"8","content":"PHASE 3: Frontend Animations - Framer Motion wrappers, AnimatePresence, page transitions","status":"pending","priority":"medium"}
+{"id":"9","content":"PHASE 4: Telegram Bot - Force-join middleware, referral system, command handlers","status":"pending","priority":"high"}
+{"id":"10","content":"PHASE 4: Telegram Bot - Mini App integration, scan command, analysis results display","status":"pending","priority":"high"}
+{"id":"11","content":"PHASE 4: Telegram Bot - Affiliate notifications, broadcast engine integration","status":"pending","priority":"medium"}
