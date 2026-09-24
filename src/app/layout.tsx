@@ -3,16 +3,9 @@
 // ============================================================
 
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
-const inter = localFont({
-  src: "./fonts/GeistVF.woff",
-  weight: "100 900",
-  style: "normal",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "BuchiAlgo — Quantitative Trading Analytics",
@@ -30,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-slate-950 text-slate-100 min-h-screen`}>
+      <body className="bg-slate-950 text-slate-100 min-h-screen">
         <Toaster
           position="top-right"
           toastOptions={{
