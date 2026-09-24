@@ -7,7 +7,12 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
-const inter = localFont({\n  src: "./fonts/GeistVF.woff",\n  weight: "100 900",\n  style: "normal",\n  display: "swap",\n});
+const inter = localFont({
+  src: "./fonts/GeistVF.woff",
+  weight: "100 900",
+  style: "normal",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "BuchiAlgo — Quantitative Trading Analytics",
