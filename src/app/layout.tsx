@@ -3,11 +3,9 @@
 // ============================================================
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "BuchiAlgo — Quantitative Trading Analytics",
@@ -25,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-slate-950 text-slate-100 min-h-screen`}>
+      <body className="bg-slate-950 text-slate-100 min-h-screen">
         <Toaster
           position="top-right"
           toastOptions={{

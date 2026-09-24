@@ -21,28 +21,30 @@ export default function CheckoutPage() {
   const [platformName, setPlatformName] = useState("BuchiAlgo");
 
   useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://telegram.org/js/telegram-web-app.js?63";
+    script.async = true;
+    script.onload = () => (window as any).Telegram?.WebApp?.ready();
+    document.head.appendChild(script);
     loadData();
+    return () => script.remove();
   }, []);
 
   async function loadData() {
     try {
       const [tiersRes, configRes] = await Promise.all([
         fetch("/api/checkout/tiers"),
-        fetch("/api/admin/config?key=currency_symbol"),
-        fetch("/api/admin/config?key=platform_name"),
+        fetch("/api/config/public"),
       ]);
 
       const tiersData = await tiersRes.json();
       const configData = await configRes.json();
 
       setTiers(tiersData.tiers || []);
-      if (configData.value) {
-        try {
-          setCurrencySymbol(JSON.parse(configData.value));
-        } catch {
-          setCurrencySymbol(configData.value);
-        }
+      if (configData.currency_symbol !== undefined) {
+        setCurrencySymbol(String(configData.currency_symbol));
       }
+      if (configData.platform_name) setPlatformName(String(configData.platform_name));
     } catch (err) {
       console.error("Failed to load checkout data:", err);
     } finally {
@@ -55,7 +57,10 @@ export default function CheckoutPage() {
       const res = await fetch("/api/checkout/initiate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tierId }),
+        body: JSON.stringify({
+          tierId,
+          initData: typeof window !== "undefined" ? (window as any).Telegram?.WebApp?.initData : "",
+        }),
       });
 
       const data = await res.json();
