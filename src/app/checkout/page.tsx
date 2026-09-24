@@ -24,7 +24,7 @@ export default function CheckoutPage() {
     const script = document.createElement("script");
     script.src = "https://telegram.org/js/telegram-web-app.js?63";
     script.async = true;
-    script.onload = () => window.Telegram?.WebApp?.ready();
+    script.onload = () => (window as any).Telegram?.WebApp?.ready();
     document.head.appendChild(script);
     loadData();
     return () => script.remove();
@@ -59,7 +59,7 @@ export default function CheckoutPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           tierId,
-          initData: typeof window !== "undefined" ? window.Telegram?.WebApp?.initData : "",
+          initData: typeof window !== "undefined" ? (window as any).Telegram?.WebApp?.initData : "",
         }),
       });
 
