@@ -3,11 +3,11 @@
 // ============================================================
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = localFont({\n  src: "./fonts/GeistVF.woff",\n  weight: "100 900",\n  style: "normal",\n  display: "swap",\n});
 
 export const metadata: Metadata = {
   title: "BuchiAlgo — Quantitative Trading Analytics",
